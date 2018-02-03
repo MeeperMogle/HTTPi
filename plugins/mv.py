@@ -23,12 +23,29 @@ def handle(parameters):
     result = ccp(command, 'to', move_to, parameters[1:3])
     if result is not None:
         return result
+    result = ccp(command, 'click', click, parameters[1])
+    if result is not None:
+        return result
 
 
 def ccp(input_value, command, callback, args):
     if input_value == command:
         return callback(args)
     return None
+
+
+def click(method):
+    if method == 'left':
+        pyautogui.click()
+    elif method == 'right':
+        pyautogui.rightClick()
+    elif method == 'middle':
+        pyautogui.middleClick()
+    elif method == 'double':
+        pyautogui.doubleClick()
+    else:
+        return 'Unknown click method: ' + method
+    return 'Performed ' + method + ' click'
 
 
 def get_screen_size():
