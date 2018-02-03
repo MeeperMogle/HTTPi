@@ -3,7 +3,7 @@ import configparser
 import logging
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
-from plugins import vlc
+from plugins import vlc, mv
 
 parser = configparser.RawConfigParser()
 whitelisted_ips = []
@@ -61,30 +61,27 @@ class S(BaseHTTPRequestHandler):
             return
         elif len(command_bits) == 1 or len(command_bits) == 2 and command_bits[1] == '':
             response = start_page(plugin_name)
-        elif plugin_name == 'std':
-            response = vlc.handle(command_bits[1:])
-        elif plugin_name == 'vlc':
-            response = vlc.handle(command_bits[1:])
         else:
-            response = 'Nothing to do'
+            response = eval(plugin_name + '.handle(command_bits[1:])')
 
         self.wfile.write(str(response).encode('utf-8'))
 
 
-class PishHTTPServer(HTTPServer):
-    pass
-
-
-def run(port=1337):
+def run():
     setup_logging()
 
     settings_file = 'settings.properties'
     parser.read(settings_file)
     load_properties()
 
-    server_address = ('', port)
+    try:
+        port = parser.get('server', 'port')
+    except configparser.NoOptionError:
+        port = '8080'
+
+    server_address = ('', int(port))
     httpd = HTTPServer(server_address, S)
-    logging.info('Starting httpd...')
+    logging.info('Starting httpd on port {}...'.format(port))
     try:
         httpd.serve_forever()
     except KeyboardInterrupt:
@@ -116,9 +113,4 @@ def load_properties():
 
 
 if __name__ == '__main__':
-    from sys import argv
-
-    if len(argv) == 2:
-        run(port=int(argv[1]))
-    else:
-        run()
+    run()
