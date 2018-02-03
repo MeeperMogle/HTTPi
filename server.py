@@ -3,7 +3,7 @@ import configparser
 import logging
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
-from plugins import vlc, mv
+from plugins import vlc, mv, sh
 
 parser = configparser.RawConfigParser()
 whitelisted_ips = []
