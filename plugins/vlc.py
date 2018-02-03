@@ -4,8 +4,7 @@ from plugins.mv import window_focus
 
 
 def focus():
-    window_focus('VLC')
-    return 'Moved focus to VLC'
+    return window_focus('VLC media player')
 
 
 def focus_fullscreen():

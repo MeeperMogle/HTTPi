@@ -38,11 +38,13 @@ def ccp(input_value, command, callback, args):
 
 
 def window_focus(title_contents):
-    print('Looking for', title_contents)
     visible_windows = pyautogui.getWindows()
     for title in visible_windows:
         if title_contents in title:
             pyautogui.Window(visible_windows[title]).set_foreground()
+            return 'Moving focus to window: ' + title_contents
+
+    return 'Could not locate window: ' + title_contents
 
 
 def click(method):
