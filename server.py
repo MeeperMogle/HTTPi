@@ -56,15 +56,20 @@ class S(BaseHTTPRequestHandler):
         if plugin_name == '':
             with open('start_pages/index.html', 'r') as f:
                 response = f.read()
+                log_response = 'Served index.html'
         elif plugin_name not in active_plugins:
             self.wfile.write('No active plugin "{}"'.format(plugin_name).encode('utf-8'))
+            log_response = 'No active plugin "{}, could not load"'.format(plugin_name)
             return
         elif len(command_bits) == 1 or len(command_bits) == 2 and command_bits[1] == '':
             response = start_page(plugin_name)
+            log_response = 'Served index for ' + plugin_name
         else:
             response = eval(plugin_name + '.handle(command_bits[1:])')
+            log_response = response
 
         self.wfile.write(str(response).encode('utf-8'))
+        logging.info(log_response)
 
 
 def run():
