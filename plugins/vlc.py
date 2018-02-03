@@ -1,6 +1,6 @@
 import pyautogui
 import logging
-from plugins.mv import window_focus, window_minimise
+from plugins.mv import window_focus, window_minimise, window_maximise
 
 vlc_window_name = 'VLC media player'
 
@@ -15,6 +15,10 @@ def focus_fullscreen():
 
 def minimise():
     return window_minimise(vlc_window_name)
+
+
+def maximise():
+    return window_maximise(vlc_window_name)
 
 
 def handle(parameters):
@@ -35,11 +39,7 @@ def handle(parameters):
     if result is not None:
         return result
 
-    result = ccp(command, 'pause', pause)
-    if result is not None:
-        return result
-
-    result = ccp(command, 'play', play)
+    result = ccp(command, 'play_pause', play_pause)
     if result is not None:
         return result
 
@@ -87,6 +87,10 @@ def handle(parameters):
     if result is not None:
         return result
 
+    result = ccp(command, 'maximise', maximise)
+    if result is not None:
+        return result
+
     return 'Command not found'
 
 
@@ -101,11 +105,13 @@ def p(text):
 
 
 def toggle_mute():
+    focus()
     p('m')
     return 'Muting'
 
 
 def enter_fullscreen():
+    focus()
     pos_start_menu = pyautogui.locateOnScreen('images/start_button.png')
     if pos_start_menu is not None:
         p('f')
@@ -114,57 +120,62 @@ def enter_fullscreen():
 
 
 def leave_fullscreen():
+    focus()
     p('esc')
     return 'Leaving fullscreen'
 
 
-def pause():
-    p('[')
-    return 'Pausing'
-
-
-def play():
-    p(']')
-    return 'Playing'
+def play_pause():
+    focus()
+    p('space')
+    return 'Toggling play/pause'
 
 
 def next_video():
+    focus()
     p('n')
     return 'Next video'
 
 
 def previous_video():
+    focus()
     p('p')
     return 'Previous video'
 
 
 def stop():
+    focus()
     p('s')
     return 'Stop'
 
 
 def show_position():
+    focus()
     p('t')
     return 'Show position'
 
 
 def volume_up():
+    focus()
     pyautogui.hotkey('ctrl', 'up')
     return 'Volume up'
 
 
 def volume_down():
+    focus()
     pyautogui.hotkey('ctrl', 'down')
     return 'Volume down'
 
 
 def toggle_interface():
+    focus()
     p('i')
     return 'Toggle interface'
 
 
 def snapshot():
-    p('s')
+    focus()
+    pyautogui.hotkey('shift', 's')
     return 'Snapshot taken'
 
 
