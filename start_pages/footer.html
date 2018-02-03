@@ -1,0 +1,21 @@
+
+    <div id="log" style="clear:both; float: left; width: 100%;"><hr></div>
+</center>
+<script>
+    const baseName = top.location.href.toString().split('/')[3];
+
+    function request(under_page) {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            const now = new Date();
+            nowString = now.getHours() + ':' + now.getMinutes() + ':' + now.getSeconds();
+            document.getElementById("log").innerHTML += nowString + ' --- ' + this.responseText + '<br>';
+        }};
+        xhttp.open("GET", "/" + baseName + "/" + under_page, true);
+        xhttp.send();
+    }
+
+    document.getElementById('header').innerHTML = '<a href="/">Back</a> - ' + baseName.toUpperCase();
+    document.getElementsByTagName('title')[0].innerHTML = 'Pish - ' + baseName.toUpperCase();
+</script>
