@@ -1,3 +1,5 @@
 .idea/
 venv/
 access.log
+__pycache__/
+*.pyc
