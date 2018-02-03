@@ -1,3 +1,4 @@
+<div style="float: left; width: 50%;">
     <div class="button" onclick="javascript:request('volume_down')">
         -
     </div>
@@ -55,3 +56,55 @@
     <div class="button" onclick="javascript:request('minimise')">
         Minimise
     </div>
+</div>
+<div style="float: right; text-align: left; width: 49%; height: 50%; overflow: scroll;">
+    <center>
+        <h3>Playable files - <span style="cursor: pointer;" onclick="javascript:updateFilelist()">Update list</span></h3>
+
+        <ul id="file_list">
+
+        </ul>
+    </center>
+</div>
+
+<style>
+    li:nth-child(odd) {background-color: gray;}
+    li:nth-child(even) {background-color: silver;}
+    li:hover {border: 2px solid gold; cursor: pointer; padding: 1px;}
+    li {padding: 3px; line-height: 35px; list-style: none;}
+</style>
+
+<script>
+    function playThisFile(obj) {
+        const link = 'file:%2F%2F%2F' + obj.dataset.link.toString().replace(/\//g, '%2F');
+
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            console.log('Loaded file "' + obj.innerHTML + '"');
+        }};
+        xhttp.open("GET", '/vlc/open/' + link, true);
+        xhttp.send();
+    }
+
+    function updateFilelist() {
+        console.log('Updating file list...');
+        const listParent = document.getElementById('file_list');
+        listParent.innerHTML = '';
+
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            const linkArray = this.responseText.replace('[', '').replace(']', '').replace(/ *'/g, '').split(',');
+
+            listHtml = '';
+
+            linkArray.forEach(link => listHtml += `<li data-link="${link}" onclick="javascript:playThisFile(this)">${link.replace(/.+\//, '')}</li>`);
+
+            listParent.innerHTML = listHtml;
+        }};
+        xhttp.open("GET", '/vlc/list_videofiles', true);
+        xhttp.send();
+    }
+    updateFilelist();
+</script>

@@ -4,12 +4,14 @@ Raspberry Pi GUI automation via HTTP-delivered commands.
 
 - Add command modules via Python plugins
 - Whitelist client-list
-- Access logging to stdout and access.log
-- HTML-pages for browser control
+- Logging of access, to stdout and access.log
+- HTML-pages for easy control via browser
 
 ## Standard plugins list
 
-- VLC: Collection of common VLC media player operations
+- VLC: Common player operations - also includes list of video files from several folders
+- MV: Move the mouse pointer, click, focus/min&maximise windows
+- SH: Not-really-shell things like checking files and starting programs
 
 ### Adding plugins
 

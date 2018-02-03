@@ -1,8 +1,16 @@
+import configparser
+
 import pyautogui
 import logging
 from plugins.mv import window_focus, window_minimise, window_maximise
+from plugins.sh import program, allowed_commands, check_os, ls_r
 
 vlc_window_name = 'VLC media player'
+
+parser = configparser.RawConfigParser()
+parser.read('settings.properties')
+video_folders = str(parser.get('directories', 'videos')).split(',')
+video_extensions = str(parser.get('vlc', 'extensions')).split(',')
 
 
 def focus():
@@ -91,6 +99,13 @@ def handle(parameters):
     if result is not None:
         return result
 
+    result = ccp(command, 'list_videofiles', list_videofiles)
+    if result is not None:
+        return result
+
+    if command == 'open' and len(parameters) > 1:
+        return open_file(parameters[1])
+
     return 'Command not found'
 
 
@@ -177,5 +192,30 @@ def snapshot():
     focus()
     pyautogui.hotkey('shift', 's')
     return 'Snapshot taken'
+
+
+def list_videofiles():
+    all_video_files = []
+
+    for folder in video_folders:
+        for file in ls_r([folder, '']):
+            all_video_files.append(file)
+
+    all_video_files = list(filter(lambda s: s.split('.')[-1] in video_extensions, all_video_files))
+
+    return all_video_files
+
+
+def open_file(path):
+    vlc_commands = list(filter(lambda s: 'vlc' in s, allowed_commands))
+
+    if check_os('') == 'Windows':
+        vlc_commands = list(filter(lambda s: '.exe' in s, vlc_commands))
+    else:
+        vlc_commands = list(filter(lambda s: '.exe' not in s, vlc_commands))
+
+    command = vlc_commands[0]
+
+    program([command, path])
 
 
