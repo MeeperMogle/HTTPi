@@ -1,14 +1,20 @@
 import pyautogui
 import logging
-from plugins.mv import window_focus
+from plugins.mv import window_focus, window_minimise
+
+vlc_window_name = 'VLC media player'
 
 
 def focus():
-    return window_focus('VLC media player')
+    return window_focus(vlc_window_name)
 
 
 def focus_fullscreen():
     return focus() + ' & ' + enter_fullscreen()
+
+
+def minimise():
+    return window_minimise(vlc_window_name)
 
 
 def handle(parameters):
@@ -74,6 +80,10 @@ def handle(parameters):
         return result
 
     result = ccp(command, 'focus_fullscreen', focus_fullscreen)
+    if result is not None:
+        return result
+
+    result = ccp(command, 'minimise', minimise)
     if result is not None:
         return result
 
