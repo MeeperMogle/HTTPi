@@ -42,6 +42,7 @@ def window_focus(title_contents):
     for title in visible_windows:
         if title_contents in title:
             pyautogui.Window(visible_windows[title]).set_foreground()
+            pyautogui.Window(visible_windows[title]).restore()
             return 'Moving focus to window: ' + title_contents
 
     return 'Could not locate window: ' + title_contents
