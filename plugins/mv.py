@@ -64,6 +64,16 @@ def window_minimise(title_contents):
 
     return 'Could not locate window: ' + title_contents
 
+
+def window_maximise(title_contents):
+    found_window = find_window(title_contents)
+    if found_window is not None:
+        found_window.set_foreground()
+        found_window.maximize()
+        return 'Maximising window: ' + title_contents
+
+    return 'Could not locate window: ' + title_contents
+
 def click(method):
     if method == 'left':
         pyautogui.click()
