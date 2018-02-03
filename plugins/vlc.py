@@ -3,7 +3,7 @@ import logging
 
 
 def handle(parameters):
-    logging.debug('Entering VLC')
+    logging.debug('Entering VLC module')
     logging.debug(parameters)
 
     command = parameters[0]
