@@ -1,5 +1,11 @@
 import pyautogui
 import logging
+from plugins.mv import window_focus
+
+
+def focus():
+    window_focus('VLC')
+    return 'Moved focus to VLC'
 
 
 def handle(parameters):
@@ -57,6 +63,10 @@ def handle(parameters):
         return result
 
     result = ccp(command, 'snapshot', snapshot)
+    if result is not None:
+        return result
+
+    result = ccp(command, 'focus', focus)
     if result is not None:
         return result
 

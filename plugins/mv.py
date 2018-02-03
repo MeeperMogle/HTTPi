@@ -26,12 +26,23 @@ def handle(parameters):
     result = ccp(command, 'click', click, parameters[1])
     if result is not None:
         return result
+    result = ccp(command, 'window_focus', window_focus, parameters[1])
+    if result is not None:
+        return result
 
 
 def ccp(input_value, command, callback, args):
     if input_value == command:
         return callback(args)
     return None
+
+
+def window_focus(title_contents):
+    print('Looking for', title_contents)
+    visible_windows = pyautogui.getWindows()
+    for title in visible_windows:
+        if title_contents in title:
+            pyautogui.Window(visible_windows[title]).set_foreground()
 
 
 def click(method):
