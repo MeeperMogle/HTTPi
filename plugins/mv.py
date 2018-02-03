@@ -37,16 +37,32 @@ def ccp(input_value, command, callback, args):
     return None
 
 
-def window_focus(title_contents):
+def find_window(title_contents):
     visible_windows = pyautogui.getWindows()
     for title in visible_windows:
         if title_contents in title:
-            pyautogui.Window(visible_windows[title]).set_foreground()
-            pyautogui.Window(visible_windows[title]).restore()
-            return 'Moving focus to window: ' + title_contents
+            return pyautogui.Window(visible_windows[title])
+    return None
+
+
+def window_focus(title_contents):
+    found_window = find_window(title_contents)
+    if found_window is not None:
+        found_window.set_foreground()
+        found_window.restore()
+        return 'Moving focus to window: ' + title_contents
 
     return 'Could not locate window: ' + title_contents
 
+
+def window_minimise(title_contents):
+    found_window = find_window(title_contents)
+    if found_window is not None:
+        found_window.set_foreground()
+        found_window.minimize()
+        return 'Minimising window: ' + title_contents
+
+    return 'Could not locate window: ' + title_contents
 
 def click(method):
     if method == 'left':
