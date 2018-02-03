@@ -8,6 +8,10 @@ def focus():
     return 'Moved focus to VLC'
 
 
+def focus_fullscreen():
+    return focus() + ' & ' + enter_fullscreen()
+
+
 def handle(parameters):
     logging.debug('Entering VLC module')
     logging.debug(parameters)
@@ -67,6 +71,10 @@ def handle(parameters):
         return result
 
     result = ccp(command, 'focus', focus)
+    if result is not None:
+        return result
+
+    result = ccp(command, 'focus_fullscreen', focus_fullscreen)
     if result is not None:
         return result
 
