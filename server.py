@@ -61,6 +61,9 @@ class S(BaseHTTPRequestHandler):
             self.wfile.write('No active plugin "{}"'.format(plugin_name).encode('utf-8'))
             log_response = 'No active plugin "{}, could not load"'.format(plugin_name)
             return
+        elif plugin_name == 'help':
+            response = start_page('help/' + command_bits[1].lower() + '_help')
+            log_response = 'Served help page for ' + command_bits[1]
         elif len(command_bits) == 1 or len(command_bits) == 2 and command_bits[1] == '':
             response = start_page(plugin_name)
             log_response = 'Served index for ' + plugin_name
