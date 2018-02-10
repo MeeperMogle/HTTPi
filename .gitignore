@@ -3,3 +3,4 @@ venv/
 access.log
 __pycache__/
 *.pyc
+todo.txt
