@@ -1,14 +1,56 @@
 <hr>
 <h2>Introduction</h2>
 
-<hr>
-<h2>Requirements / Compatibility</h2>
+VLC is a popular cross-platform video player.
 
 <hr>
-<h2>Installation</h2>
+
+<h2>Requirements</h2>
+
+<table border="1" cellspacing="0" cellpadding="5">
+    <th>Requirement</th>
+    <th>Purpose</th>
+    <tr>
+        <td>mv plugin</td>
+        <td>Focusing, maximising, VLC window</td>
+    </tr>
+    <tr>
+        <td>sh plugin</td>
+        <td>Finding and starting video files</td>
+    </tr>
+</table>
 
 <hr>
-<h2>Configuration</h2>
+
+<h2>Windows server installation</h2>
+
+Install using VLC installer binary
+
+<hr width="60%">
+
+<h2>Raspberry Pi 2/3 server installation</h2>
+
+A standard installation of VLC on a Raspberry Pi suffers from a lack of CPU power.
+<br>This means VLC has a hard time displaying any video with the normal executable.
+<br>Solving this is a matter of compiling and installing VLC manually, including hardware acceleration.
+
+<p>
+    Guide for installation of VLC with HW acceleration
+    <br>
+    <a href="https://www.raspberrypi.org/forums/viewtopic.php?f=66&t=59814" target="_pihwa">
+        https://www.raspberrypi.org/forums/viewtopic.php?f=66&t=59814
+    </a>
+</p>
 
 <hr>
-<h2>Control</h2>
+<h2>Plugin Configuration</h2>
+
+<p>
+    <i>Configuring the preferences of VLC itself is done manually.</i>
+</p>
+
+<h3>settings.properties</h3>
+1. Add <i>vlc</i> to <b>plugins &gt; active</b><br>
+2. Add <i>&lt;path to vlc executable&gt;</i> to <b>vlc &gt; executable.paths</b><br>
+3. Add the extensions of video files to be opened with VLC to <b>vlc &gt; extensions</b><br>
+4. Make sure <b>directories &gt; videos</b> contains all the folders you want to look for video files
