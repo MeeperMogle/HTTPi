@@ -3,7 +3,7 @@ import configparser
 import pyautogui
 import logging
 from plugins.mv import window_focus, window_minimise, window_maximise
-from plugins.sh import program, allowed_commands, check_os, ls_r
+from plugins.sh import program, allowed_commands, check_os, ls_r, program_exists
 
 vlc_window_name = 'VLC media player'
 
@@ -11,22 +11,7 @@ parser = configparser.RawConfigParser()
 parser.read('settings.properties')
 video_folders = str(parser.get('directories', 'videos')).split(',')
 video_extensions = str(parser.get('vlc', 'extensions')).split(',')
-
-
-def focus():
-    return window_focus(vlc_window_name)
-
-
-def focus_fullscreen():
-    return focus() + ' & ' + enter_fullscreen()
-
-
-def minimise():
-    return window_minimise(vlc_window_name)
-
-
-def maximise():
-    return window_maximise(vlc_window_name)
+exe_paths = str(parser.get('vlc', 'executable.paths')).split(',')
 
 
 def handle(parameters):
@@ -99,6 +84,10 @@ def handle(parameters):
     if result is not None:
         return result
 
+    result = ccp(command, 'exists', exists)
+    if result is not None:
+        return result
+
     result = ccp(command, 'list_videofiles', list_videofiles)
     if result is not None:
         return result
@@ -117,6 +106,27 @@ def ccp(input_value, command, callback):
 
 def p(text):
     pyautogui.press(text)
+
+
+def focus():
+    return window_focus(vlc_window_name)
+
+
+def exists():
+    if program_exists(exe_paths):
+        return True
+
+
+def focus_fullscreen():
+    return focus() + ' & ' + enter_fullscreen()
+
+
+def minimise():
+    return window_minimise(vlc_window_name)
+
+
+def maximise():
+    return window_maximise(vlc_window_name)
 
 
 def toggle_mute():
@@ -206,7 +216,7 @@ def list_videofiles():
     return all_video_files
 
 
-def open_file(path):
+def open_file(file_path):
     vlc_commands = list(filter(lambda s: 'vlc' in s, allowed_commands))
 
     if check_os('') == 'Windows':
@@ -214,8 +224,8 @@ def open_file(path):
     else:
         vlc_commands = list(filter(lambda s: '.exe' not in s, vlc_commands))
 
-    command = vlc_commands[0]
+    vlc_command = vlc_commands[0]
 
-    program([command, path])
+    program([vlc_command, file_path])
 
 

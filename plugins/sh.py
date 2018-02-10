@@ -46,6 +46,12 @@ def ls_r(path):
     return files
 
 
+def program_exists(names):
+    for path in names:
+        if os.path.exists(path) and os.path.isfile(path):
+            return True
+
+
 def program(args):
     program_name = str(args[0]).replace('%2F', '/')
     if program_name in allowed_commands:
