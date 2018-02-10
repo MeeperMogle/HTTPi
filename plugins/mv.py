@@ -1,5 +1,6 @@
 import pyautogui
 import logging
+from urllib.parse import unquote
 
 
 def handle(parameters):
@@ -27,6 +28,9 @@ def handle(parameters):
     if result is not None:
         return result
     result = ccp(command, 'click', click, parameters[1])
+    if result is not None:
+        return result
+    result = ccp(command, 'write', write, parameters[1])
     if result is not None:
         return result
     result = ccp(command, 'window_focus', window_focus, parameters[1])
@@ -96,6 +100,21 @@ def click(method):
     else:
         return 'Unknown click method: ' + method
     return 'Performed ' + method + ' click'
+
+
+def write(text):
+    text = unquote(str(text))
+    text_parts = text.split('|||')
+
+    special_characters = ('enter',)
+
+    for part in text_parts:
+        if part in special_characters:
+            pyautogui.press(part)
+        else:
+            pyautogui.typewrite(part)
+
+    return text
 
 
 def get_screen_size():

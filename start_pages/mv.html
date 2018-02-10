@@ -12,6 +12,14 @@
             request(direction + '/' + pixels);
         }
     }
+    function sendText() {
+        const text = document.getElementById('textSend').value;
+        document.getElementById('textSend').value = '';
+
+        if (text != '') {
+            request('write/' + text.replace(/\//g, '%2F').replace(/\\n/g, '|||enter|||'));
+        }
+    }
 </script>
 
 <div style="float: left; width: 50%;">
@@ -39,6 +47,12 @@
         </table>
     </p>
     <hr>
+
+    <h3>Type</h3>
+    <table>
+        <tr><td>\n = Enter</td><td></td></tr>
+        <tr><td><input type="text" id="textSend"></td><td><input type="submit" value="Send" onclick="javascript:sendText()" id="tsBtn"></td></tr>
+    </table>
 </div>
 
 <style>
@@ -46,7 +60,7 @@
         width: 100px;
         height: 100px;
     }
-    #directionalButtons input, #clickButtons input {
+    #directionalButtons input, #clickButtons input, #tsBtn {
         width: 100px;
         height: 100px;
     }
