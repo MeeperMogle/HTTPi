@@ -14,11 +14,11 @@ def start_page(plugin_name):
     start_html_file = 'start_pages/' + plugin_name + '.html'
     html = ''
 
-    with open('start_pages/header.html', 'r') as f:
+    with open('start_pages/common/header.html', 'r') as f:
         html += f.read()
     with open(start_html_file, 'r') as f:
         html += f.read()
-    with open('start_pages/footer.html', 'r') as f:
+    with open('start_pages/common/footer.html', 'r') as f:
         html += f.read()
     return html
 
@@ -54,7 +54,7 @@ class S(BaseHTTPRequestHandler):
         plugin_name = command_bits[0]
 
         if plugin_name == '':
-            with open('start_pages/index.html', 'r') as f:
+            with open('start_pages/common/index.html', 'r') as f:
                 response = f.read()
                 log_response = 'Served index.html'
         elif plugin_name not in active_plugins:
