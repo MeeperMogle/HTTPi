@@ -23,6 +23,9 @@ def handle(parameters):
     result = ccp(command, 'to', move_to, parameters[1:3])
     if result is not None:
         return result
+    result = ccp(command, 'center', center, '')
+    if result is not None:
+        return result
     result = ccp(command, 'click', click, parameters[1])
     if result is not None:
         return result
@@ -73,6 +76,13 @@ def window_maximise(title_contents):
         return 'Maximising window: ' + title_contents
 
     return 'Could not locate window: ' + title_contents
+
+
+def center(args):
+    center_of_screen = (int(get_screen_width() / 2), int(get_screen_height() / 2))
+    move_to(center_of_screen)
+    return 'Moved to center of screen ' + str(center_of_screen)
+
 
 def click(method):
     if method == 'left':

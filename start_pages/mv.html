@@ -1,0 +1,57 @@
+<script>
+    function moveRequest(direction) {
+        const directions = ['up', 'left', 'right', 'down', 'center'];
+
+        if (directions.includes(direction)) {
+            let pixels = parseInt(stepPixels.value);
+            if (isNaN(pixels)) {
+                stepPixels.value = '5';
+                pixels = 5;
+            }
+
+            request(direction + '/' + pixels);
+        }
+    }
+</script>
+
+<div style="float: left; width: 50%;">
+    <table id="directionalButtons">
+        <tr><td></td><td><input type="submit" value="^" onclick="javascript:moveRequest('up')"></td><td></td></tr>
+        <tr>
+            <td><input type="submit" value="<" onclick="javascript:moveRequest('left')"></td>
+            <td><input type="submit" value="CENTER" onclick="javascript:moveRequest('center')"></td>
+            <td><input type="submit" value=">" onclick="javascript:moveRequest('right')"></td></tr>
+        <tr><td></td><td><input type="submit" value="v" onclick="javascript:moveRequest('down')"></td><td></td></tr>
+    </table>
+</div>
+<div style="float: right; width: 50%;">
+    Pixels/step <input type="number" id="stepPixels" value="5">
+
+    <p>
+        <h3>Click</h3>
+        <table id="clickButtons">
+            <tr>
+                <td><input type="submit" value="Left" onclick="javascript:request('click/left')"></td>
+                <td><input type="submit" value="Right" onclick="javascript:request('click/right')"></td>
+                <td><input type="submit" value="Middle" onclick="javascript:request('click/middle')"></td>
+                <td><input type="submit" value="Double Left" onclick="javascript:request('click/double')"></td>
+            </tr>
+        </table>
+    </p>
+    <hr>
+</div>
+
+<style>
+    #directionalButtons td, #clickButtons td {
+        width: 100px;
+        height: 100px;
+    }
+    #directionalButtons input, #clickButtons input {
+        width: 100px;
+        height: 100px;
+    }
+</style>
+
+<script>
+    const stepPixels = document.getElementById('stepPixels');
+</script>
