@@ -2,13 +2,14 @@
 
 unamestr=`uname`
 if [[ "$unamestr" = *'CYGWIN'* ]]; then
-   apt='apt-cyg'
+   echo "Cygwin not supported, install using native Windows method"
+   exit
 elif [[ "$unamestr" = *'Linux'* ]]; then
-   apt='apt'
+   PACKAGE_MANAGER_INSTALL='apt install'
 fi
 
-$apt install python3 python3-pip
+$PACKAGE_MANAGER_INSTALL python3 python3-pip
 pip3 install python3-xlib
-$apt install scrot python3-tk python3-dev
+$PACKAGE_MANAGER_INSTALL python3-tk python3-dev scrot
 
 pip3 install pyautogui
