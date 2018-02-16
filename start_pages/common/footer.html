@@ -19,11 +19,11 @@
     if (baseName.toUpperCase() != 'HELP') {
         document.getElementById('header').innerHTML = '<a href="/">Back</a> - ' + baseName.toUpperCase();
         document.getElementById('header').innerHTML += ' - <a href="/help/' + baseName.toUpperCase() + '">Help</a>';
-        document.getElementsByTagName('title')[0].innerHTML = 'Pish - ' + baseName.toUpperCase();
+        document.getElementsByTagName('title')[0].innerHTML = 'HTTPi - ' + baseName.toUpperCase();
     } else {
         const helpTarget = top.location.href.toString().split('/')[4].toLowerCase();
         document.getElementById('header').innerHTML = '<a href="/' + helpTarget + '">Back</a> - ' + helpTarget.toUpperCase() + ' help';
-        document.getElementsByTagName('title')[0].innerHTML = 'Pish - ' + helpTarget.toUpperCase() + ' help';
+        document.getElementsByTagName('title')[0].innerHTML = 'HTTPi - ' + helpTarget.toUpperCase() + ' help';
         document.getElementById('log').style.display = 'none';
     }
 </script>

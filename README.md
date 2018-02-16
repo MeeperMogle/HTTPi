@@ -1,4 +1,4 @@
-# pish
+# HTTPi
 
 Raspberry Pi (and more) GUI automation via HTTP-delivered commands.
 
