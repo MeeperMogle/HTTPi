@@ -69,9 +69,12 @@ class S(BaseHTTPRequestHandler):
         elif www_enabled and (len(command_bits) == 1 or len(command_bits) == 2 and command_bits[1] == ''):
             response = start_page(plugin_name)
             log_response = 'Served index for ' + plugin_name
-        else:
+        elif len(command_bits) > 1:
             response = eval(plugin_name + '.handle(command_bits[1:])')
             log_response = response
+        else:
+            response = ''
+            log_response = 'No action for ' + str(command_bits)
 
         self.wfile.write(str(response).encode('utf-8'))
         logging.info(log_response)
