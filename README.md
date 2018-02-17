@@ -7,6 +7,9 @@ Raspberry Pi (and more) GUI automation via HTTP-delivered commands.
 - Logging of access, to stdout and access.log
 - HTML-pages for easy control via browser
 
+**This software is a hobby project and in a development stage.
+It comes with no warranties.**
+
 ## Standard plugins
 
 ### VLC
