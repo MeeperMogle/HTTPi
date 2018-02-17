@@ -137,11 +137,8 @@ def toggle_mute():
 
 def enter_fullscreen():
     focus()
-    pos_start_menu = pyautogui.locateOnScreen('images/start_button.png')
-    if pos_start_menu is not None:
-        p('f')
-        return 'Entering fullscreen'
-    return 'Already in fullscreen'
+    p('f')
+    return 'Toggling fullscreen'
 
 
 def leave_fullscreen():
