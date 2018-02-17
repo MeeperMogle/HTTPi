@@ -45,10 +45,19 @@ def ccp(input_value, command, callback, args):
 
 
 def find_window(title_contents):
-    visible_windows = pyautogui.getWindows()
-    for title in visible_windows:
-        if title_contents in title:
-            return pyautogui.Window(visible_windows[title])
+    try:
+        visible_windows = pyautogui.getWindows()
+        for title in visible_windows:
+            if title_contents in title:
+                return pyautogui.Window(visible_windows[title])
+    except AttributeError as e:
+        if "has no attribute 'getWindows" in str(e):
+            from libs._window_x11 import Window, getWindows, getWindow
+            visible_windows = getWindows()
+            for title in visible_windows:
+                if title_contents in title:
+                    return Window(visible_windows[title])
+            pass
     return None
 
 
