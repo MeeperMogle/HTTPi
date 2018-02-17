@@ -12,9 +12,7 @@ It comes with no warranties.**
 
 ## Known issues
 
-- Window-handling functions not working on Linux. This affects
-    - MV window-related commands
-    - VLC playback controls (starting videos still works)
+- 
 
 ## Standard plugins
 
