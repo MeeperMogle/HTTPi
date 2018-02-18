@@ -16,7 +16,7 @@ It comes with no warranties.**
 
 ## Standard plugins
 
-### VLC
+### VLC (under test)
 
 - Common player operations - also includes list of video files from several folders
 
