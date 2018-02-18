@@ -18,15 +18,15 @@ It comes with no warranties.**
 
 ### VLC
 
-- VLC: Common player operations - also includes list of video files from several folders
+- Common player operations - also includes list of video files from several folders
 
 ### MV
 
-- MV: Move the mouse pointer, click, focus/min&maximise windows
+- Move the cursor, click, focus/min&maximise windows
 
 ### SH
 
-- SH: Not-really-gui things like checking files and starting programs
+- Not-really-gui things like checking files and starting programs
 
 ## Adding plugins
 
