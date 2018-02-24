@@ -3,7 +3,7 @@ import configparser
 import logging
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
-from helpers import router
+from helpers import router  # Will be generated on startup of script
 from helpers import router_generator
 
 parser = configparser.RawConfigParser()
