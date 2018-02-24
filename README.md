@@ -15,10 +15,9 @@ It comes with no warranties.**
 - 
 
 ## Standard plugins
+### OMX
 
-### VLC (under test)
-
-- Common player operations - also includes list of video files from several folders
+- Video player
 
 ### MV
 
@@ -28,11 +27,15 @@ It comes with no warranties.**
 
 - Not-really-gui things like checking files and starting programs
 
+### VLC (under test)
+
+- Common player operations
+
+
 ## Adding plugins
 
 Server dynamically picks up and handles requests towards plugins marked as "active".
 
 1. Create &lt;name>.py in **plugins/** directory, with a **handle(str)** function
 2. Add &lt;name> to **active** in **settings.properties**
-3. Add &lt;name> to **from plugins import ...** in **server.py**
-4. (Optional) Add &lt;name>.html to **start_pages/** directory and a link to it in index.html
+3. (Optional) Add &lt;name>.html to **start_pages/** directory and a link to it in index.html
