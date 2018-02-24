@@ -1,0 +1,36 @@
+<hr>
+<h2>Introduction</h2>
+
+OMX is a video player designed to run through the command line.
+<br>While the player is natively without it's own controls, it runs video smoothly.
+
+<hr>
+
+<h2>Requirements</h2>
+
+<table border="1" cellspacing="0" cellpadding="5">
+    <th>Requirement</th>
+    <th>Purpose</th>
+    <tr>
+        <td>sh plugin</td>
+        <td>Finding and starting video files</td>
+    </tr>
+</table>
+
+<hr>
+
+<h2>Raspberry Pi 2/3 server installation</h2>
+
+<p>
+    Should work (and be installed) natively on Raspberry Pi.
+    <br>If not it can be installed using <b>sudo apt-get install omxplayer</b>
+</p>
+
+<hr>
+<h2>Plugin Configuration</h2>
+
+<h3>settings.properties</h3>
+1. Add <i>omx</i> to <b>plugins &gt; active</b><br>
+2. Add the extensions of video files to be opened with OMX to <b>omx &gt; omx.extensions</b><br>
+3. Make sure <b>directories &gt; videos</b> contains all the folders you want to look for video files<br>
+4. Add <b>lxterminal -e omxplayer</b> to <b>shell &gt; allowed.commands</b><br>
