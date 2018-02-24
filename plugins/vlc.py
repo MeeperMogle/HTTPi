@@ -10,7 +10,7 @@ vlc_window_name = 'VLC media player'
 parser = configparser.RawConfigParser()
 parser.read('settings.properties')
 video_folders = str(parser.get('directories', 'videos')).split(',')
-video_extensions = str(parser.get('vlc', 'extensions')).split(',')
+video_extensions = str(parser.get('vlc', 'vlc.extensions')).split(',')
 exe_paths = str(parser.get('vlc', 'executable.paths')).split(',')
 
 
