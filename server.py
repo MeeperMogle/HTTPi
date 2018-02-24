@@ -3,7 +3,8 @@ import configparser
 import logging
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
-from plugins import vlc, mv, sh, omx
+from helpers import router
+from helpers import router_generator
 
 parser = configparser.RawConfigParser()
 whitelisted_ips = []
@@ -60,9 +61,8 @@ class S(BaseHTTPRequestHandler):
                 response = f.read()
                 log_response = 'Served index.html'
         elif plugin_name not in active_plugins:
-            self.wfile.write('No active plugin "{}"'.format(plugin_name).encode('utf-8'))
+            response = 'No active plugin "{}"'.format(plugin_name)
             log_response = 'No active plugin "{}, could not load"'.format(plugin_name)
-            return
         elif plugin_name == 'help' and www_enabled:
             response = start_page('help/' + command_bits[1].lower() + '_help')
             log_response = 'Served help page for ' + command_bits[1]
@@ -70,7 +70,7 @@ class S(BaseHTTPRequestHandler):
             response = start_page(plugin_name)
             log_response = 'Served index for ' + plugin_name
         elif len(command_bits) > 1:
-            response = eval(plugin_name + '.handle(command_bits[1:])')
+            response = router.handle(command_bits)
             log_response = response
         else:
             response = ''
@@ -91,6 +91,8 @@ def run():
         port = parser.get('server', 'port')
     except configparser.NoOptionError:
         port = '8080'
+
+    router_generator.generate()
 
     server_address = ('', int(port))
     httpd = HTTPServer(server_address, S)
