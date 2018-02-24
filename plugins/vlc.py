@@ -221,8 +221,9 @@ def open_file(file_path):
     else:
         vlc_commands = list(filter(lambda s: '.exe' not in s, vlc_commands))
 
-    vlc_command = vlc_commands[0]
+    if len(vlc_commands) > 0:
+        vlc_command = vlc_commands[0]
+        program([vlc_command, file_path])
+        return 'Opening file using ' + vlc_command
 
-    program([vlc_command, file_path])
-
-
+    return 'Could not find appropriate vlc command'

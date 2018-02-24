@@ -3,6 +3,7 @@
 </center>
 <script>
     const baseName = top.location.href.toString().split('/')[3];
+    const logDiv = document.getElementById("log");
 
     function request(under_page) {
         var xhttp = new XMLHttpRequest();
@@ -10,7 +11,8 @@
         if (this.readyState == 4 && this.status == 200) {
             const now = new Date();
             nowString = now.getHours() + ':' + now.getMinutes() + ':' + now.getSeconds();
-            document.getElementById("log").innerHTML += nowString + ' --- ' + this.responseText + '<br>';
+            logDiv.innerHTML += nowString + ' --- ' + this.responseText + '<br>';
+            logDiv.scrollTop = logDiv.scrollHeight;
         }};
         xhttp.open("GET", "/" + baseName + "/" + under_page, true);
         xhttp.send();
