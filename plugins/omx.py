@@ -51,7 +51,7 @@ def handle(parameters):
     if result is not None:
         return result
 
-    result = ccp(command, 'exit', exit)
+    result = ccp(command, 'exit', exit_omx)
     if result is not None:
         return result
 
@@ -122,7 +122,7 @@ def toggle_subtitles():
     return 'Toggling subtitles'
 
 
-def exit():
+def exit_omx():
     p('q')
     return 'Exiting OMXplayer'
 
@@ -160,4 +160,4 @@ def list_videofiles():
 
 
 def open_file(file_path):
-    program(['omxplayer', file_path])
+    program(['lxterminal -e omxplayer', file_path])

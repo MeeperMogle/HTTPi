@@ -54,8 +54,18 @@ def program_exists(names):
 
 def program(args):
     program_name = str(args[0]).replace('%2F', '/')
+    global allowed_commands
     if program_name in allowed_commands:
-        subprocess.Popen([program_name, args[1].replace('%2F', '/')])
+        split_program = program_name.split(' ')
+        actual_program = split_program[0]
+
+        if len(split_program) > 1:
+            if len(split_program) == 2:
+                subprocess.Popen([actual_program, split_program[1], args[1].replace('%2F', '/')])
+            elif len(split_program) == 3:
+                subprocess.Popen([actual_program, split_program[1], split_program[2], args[1].replace('%2F', '/')])
+        else:
+            subprocess.Popen([actual_program, args[1].replace('%2F', '/')])
     else:
         logging.warning('Attempt to use non-whitelisted program: ' + program_name + ' ' + ' '.join(args[1]))
 
