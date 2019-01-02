@@ -22,6 +22,7 @@ It comes with no warranties.**
 ### MV
 
 - Move the cursor, click, focus/min&maximise windows
+- Now includes screenshot of screen for ease of use when not in front of screen
 
 ### SH
 
