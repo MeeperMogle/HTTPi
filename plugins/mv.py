@@ -1,6 +1,9 @@
+import base64
+
 import pyautogui
 import logging
 from urllib.parse import unquote
+from PIL import Image
 
 
 def handle(parameters):
@@ -34,6 +37,9 @@ def handle(parameters):
     if result is not None:
         return result
     result = ccp(command, 'window_focus', window_focus, parameters[1])
+    if result is not None:
+        return result
+    result = ccp(command, 'screenshot', screenshot, parameters[1])
     if result is not None:
         return result
 
@@ -124,6 +130,28 @@ def write(text):
             pyautogui.typewrite(part)
 
     return text
+
+
+def screenshot(args):
+    screen = pyautogui.screenshot()
+
+    cursor_image = Image.open('img/cursor.jpg')
+    screen.paste(im=cursor_image, box=pyautogui.position())
+    screen.save('img/state.png')
+
+    with open('img/state.png', 'rb') as image_file:
+        encoded_string = base64.b64encode(image_file.read()).decode()
+    return encoded_string
+
+
+def draw_pointer_at(xy, image):
+    x = xy[0]
+    y = xy[1]
+    black = (0, 0, 0)
+    white = (255, 255, 255)
+    for i in range(15):
+        image.putpixel((x, y + i), black)
+    return image
 
 
 def get_screen_size():
