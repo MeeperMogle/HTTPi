@@ -31,16 +31,20 @@
             updateScreen();
         }
     }
+    function hereClick(direction) {
+        request('click/' + direction);
+        updateScreen();
+    }
 </script>
 
 <div style="float: left; width: 100%;">
     <div style="float: left; width: 10%;">
         <h3>Click</h3>
         <table id="clickButtons">
-            <tr><td><input type="submit" value="Left" onclick="javascript:request('click/left')"></td></tr>
-            <tr><td><input type="submit" value="Right" onclick="javascript:request('click/right')"></td></tr>
-            <tr><td><input type="submit" value="Middle" onclick="javascript:request('click/middle')"></td></tr>
-            <tr><td><input type="submit" value="Double Left" onclick="javascript:request('click/double')"></td></tr>
+            <tr><td><input type="submit" value="Left" onclick="javascript:hereClick('left')"></td></tr>
+            <tr><td><input type="submit" value="Right" onclick="javascript:hereClick('right')"></td></tr>
+            <tr><td><input type="submit" value="Middle" onclick="javascript:hereClick('middle')"></td></tr>
+            <tr><td><input type="submit" value="Double Left" onclick="javascript:hereClick('double')"></td></tr>
         </table>
     </div>
     <div style="float: left; width: 25%;">
