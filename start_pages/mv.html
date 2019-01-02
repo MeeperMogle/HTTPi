@@ -1,4 +1,13 @@
 <script>
+    function updateScreen() {
+        const data = request('screenshot/');
+        const screen = document.getElementById('screen');
+
+        data.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            screen.src = 'data:image/png;base64, ' + data.responseText;
+        }};
+    }
     function moveRequest(direction) {
         const directions = ['up', 'left', 'right', 'down', 'center'];
 
@@ -10,6 +19,7 @@
             }
 
             request(direction + '/' + pixels);
+            updateScreen();
         }
     }
     function sendText() {
@@ -18,42 +28,46 @@
 
         if (text != '') {
             request('write/' + text.replace(/\//g, '%2F').replace(/\\n/g, '|||enter|||'));
+            updateScreen();
         }
     }
 </script>
 
-<div style="float: left; width: 50%;">
-    Pixels/step <input type="number" id="stepPixels" value="5">
-
-    <p>
-    <table id="directionalButtons">
-        <tr><td></td><td><input type="submit" value="^" onclick="javascript:moveRequest('up')"></td><td></td></tr>
-        <tr>
-            <td><input type="submit" value="<" onclick="javascript:moveRequest('left')"></td>
-            <td><input type="submit" value="CENTER" onclick="javascript:moveRequest('center')"></td>
-            <td><input type="submit" value=">" onclick="javascript:moveRequest('right')"></td></tr>
-        <tr><td></td><td><input type="submit" value="v" onclick="javascript:moveRequest('down')"></td><td></td></tr>
-    </table>
-</div>
-<div style="float: right; width: 50%;">
+<div style="float: left; width: 100%;">
+    <div style="float: left; width: 10%;">
         <h3>Click</h3>
         <table id="clickButtons">
-            <tr>
-                <td><input type="submit" value="Left" onclick="javascript:request('click/left')"></td>
-                <td><input type="submit" value="Right" onclick="javascript:request('click/right')"></td>
-                <td><input type="submit" value="Middle" onclick="javascript:request('click/middle')"></td>
-                <td><input type="submit" value="Double Left" onclick="javascript:request('click/double')"></td>
-            </tr>
+            <tr><td><input type="submit" value="Left" onclick="javascript:request('click/left')"></td></tr>
+            <tr><td><input type="submit" value="Right" onclick="javascript:request('click/right')"></td></tr>
+            <tr><td><input type="submit" value="Middle" onclick="javascript:request('click/middle')"></td></tr>
+            <tr><td><input type="submit" value="Double Left" onclick="javascript:request('click/double')"></td></tr>
         </table>
-    </p>
-    <hr>
+    </div>
+    <div style="float: left; width: 25%;">
+        Pixels/step <input type="number" id="stepPixels" value="5">
 
-    <h3>Type</h3>
-    <table>
-        <tr><td>\n = Enter</td><td></td></tr>
-        <tr><td><input type="text" id="textSend"></td><td><input type="submit" value="Send" onclick="javascript:sendText()" id="tsBtn"></td></tr>
-    </table>
+        <table id="directionalButtons">
+            <tr><td></td><td><input type="submit" value="^" onclick="javascript:moveRequest('up')"></td><td></td></tr>
+            <tr>
+                <td><input type="submit" value="<" onclick="javascript:moveRequest('left')"></td>
+                <td><input type="submit" value="CENTER" onclick="javascript:moveRequest('center')"></td>
+                <td><input type="submit" value=">" onclick="javascript:moveRequest('right')"></td></tr>
+            <tr><td></td><td><input type="submit" value="v" onclick="javascript:moveRequest('down')"></td><td></td></tr>
+        </table>
+
+        <hr>
+
+        <h3>Type</h3>
+        <table>
+            <tr><td>\n = Enter</td><td></td></tr>
+            <tr><td><input type="text" id="textSend"></td><td><input type="submit" value="Send" onclick="javascript:sendText()" id="tsBtn"></td></tr>
+        </table>
+    </div>
+    <div style="float: right; width: 64%;">
+        <img id="screen" width="100%" alt="Meep dot" onclick="javascript:updateScreen()" />
+    </div>
 </div>
+
 
 <style>
     #directionalButtons td, #clickButtons td {
