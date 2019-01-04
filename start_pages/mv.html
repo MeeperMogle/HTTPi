@@ -3,35 +3,35 @@
     let screenHeight = -1;
 
     function updateScreen(e) {
-        const data = request('screenshot/');
         const screen = document.getElementById('screen');
 
+        if (screen.width > 0 && screen.height > 0) {
+            let screenWidthModifier = screenWidth / screen.width;
+            let screenHeightModifier = screenHeight / screen.height;
+
+            const mouseX = e.x;
+            const mouseY = e.y;
+
+            const mouseXonImage = mouseX - screen.offsetLeft;
+            const mouseYonImage = mouseY - screen.offsetTop;
+
+            const realPixelX = mouseXonImage * screenWidthModifier;
+            const realPixelY = mouseYonImage * screenHeightModifier;
+
+            let button = 'left';
+            if (e.button == 2) {
+                button = 'right';
+            } else if (e.button == 1) {
+                button = 'middle';
+            }
+            request('to/' + Math.round(realPixelX) + '/' + Math.round(realPixelY));
+            request('click/' + button);
+        }
+
+        const data = request('screenshot/');
         data.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
                 screen.src = 'data:image/png;base64, ' + data.responseText;
-
-                if (screen.width > 0 && screen.height > 0) {
-                let screenWidthModifier = screenWidth / screen.width;
-                let screenHeightModifier = screenHeight / screen.height;
-
-                const mouseX = e.x;
-                const mouseY = e.y;
-
-                const mouseXonImage = mouseX - screen.offsetLeft;
-                const mouseYonImage = mouseY - screen.offsetTop;
-
-                const realPixelX = mouseXonImage * screenWidthModifier;
-                const realPixelY = mouseYonImage * screenHeightModifier;
-
-                let button = 'left';
-                if (e.button == 2) {
-                    button = 'right';
-                } else if (e.button == 1) {
-                    button = 'middle';
-                }
-                request('to/' + Math.round(realPixelX) + '/' + Math.round(realPixelY));
-                request('click/' + button);
-            }
         }};
 
         if (screenWidth < 0 || screenHeight < 0) {
