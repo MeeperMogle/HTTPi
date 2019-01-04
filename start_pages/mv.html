@@ -1,12 +1,46 @@
 <script>
-    function updateScreen() {
+    let screenWidth = -1;
+    let screenHeight = -1;
+
+    function updateScreen(e) {
         const data = request('screenshot/');
         const screen = document.getElementById('screen');
 
         data.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            screen.src = 'data:image/png;base64, ' + data.responseText;
+            if (this.readyState == 4 && this.status == 200) {
+                screen.src = 'data:image/png;base64, ' + data.responseText;
+
+                if (screen.width > 0 && screen.height > 0) {
+                let screenWidthModifier = screenWidth / screen.width;
+                let screenHeightModifier = screenHeight / screen.height;
+
+                const mouseX = e.x;
+                const mouseY = e.y;
+
+                const mouseXonImage = mouseX - screen.offsetLeft;
+                const mouseYonImage = mouseY - screen.offsetTop;
+
+                const realPixelX = mouseXonImage * screenWidthModifier;
+                const realPixelY = mouseYonImage * screenHeightModifier;
+
+                let button = 'left';
+                if (e.button == 2) {
+                    button = 'right';
+                } else if (e.button == 1) {
+                    button = 'middle';
+                }
+                request('to/' + Math.round(realPixelX) + '/' + Math.round(realPixelY));
+                request('click/' + button);
+            }
         }};
+
+        if (screenWidth < 0 || screenHeight < 0) {
+            request('size/').onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                screenWidth = parseInt(this.responseText.match(/\d+(?=,)/));
+                screenHeight = parseInt(this.responseText.match(/(?<=, )\d+/));
+            }};
+        }
     }
     function moveRequest(direction) {
         const directions = ['up', 'left', 'right', 'down', 'center'];
@@ -68,7 +102,7 @@
         </table>
     </div>
     <div style="float: right; width: 64%;">
-        <img id="screen" width="100%" alt="Meep dot" onclick="javascript:updateScreen()" />
+        <img id="screen" width="100%" alt="Meep dot" />
     </div>
 </div>
 
@@ -86,4 +120,5 @@
 
 <script>
     const stepPixels = document.getElementById('stepPixels');
+    document.getElementById('screen').onclick = updateScreen;;
 </script>
