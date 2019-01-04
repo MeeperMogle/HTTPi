@@ -9,23 +9,25 @@
             let screenWidthModifier = screenWidth / screen.width;
             let screenHeightModifier = screenHeight / screen.height;
 
-            const mouseX = e.x;
-            const mouseY = e.y;
+            if (screenWidthModifier > 0 && screenHeightModifier > 0) {
+                const mouseX = e.x;
+                const mouseY = e.y;
 
-            const mouseXonImage = mouseX - screen.offsetLeft;
-            const mouseYonImage = mouseY - screen.offsetTop;
+                const mouseXonImage = mouseX - screen.offsetLeft;
+                const mouseYonImage = mouseY - screen.offsetTop;
 
-            const realPixelX = mouseXonImage * screenWidthModifier;
-            const realPixelY = mouseYonImage * screenHeightModifier;
+                const realPixelX = mouseXonImage * screenWidthModifier;
+                const realPixelY = mouseYonImage * screenHeightModifier;
 
-            let button = 'left';
-            if (e.button == 2) {
-                button = 'right';
-            } else if (e.button == 1) {
-                button = 'middle';
+                let button = 'left';
+                if (e.button == 2) {
+                    button = 'right';
+                } else if (e.button == 1) {
+                    button = 'middle';
+                }
+                request('to/' + Math.round(realPixelX) + '/' + Math.round(realPixelY));
+                request('click/' + button);
             }
-            request('to/' + Math.round(realPixelX) + '/' + Math.round(realPixelY));
-            request('click/' + button);
         }
 
         const data = request('screenshot/');
