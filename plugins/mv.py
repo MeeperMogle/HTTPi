@@ -42,6 +42,9 @@ def handle(parameters):
     result = ccp(command, 'screenshot', screenshot, parameters[1])
     if result is not None:
         return result
+    result = ccp(command, 'size', screen_size, parameters[1])
+    if result is not None:
+        return result
 
 
 def ccp(input_value, command, callback, args):
@@ -142,6 +145,10 @@ def screenshot(args):
     with open('img/state.png', 'rb') as image_file:
         encoded_string = base64.b64encode(image_file.read()).decode()
     return encoded_string
+
+
+def screen_size(args):
+    return pyautogui.size()
 
 
 def draw_pointer_at(xy, image):
