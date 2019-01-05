@@ -26,7 +26,10 @@
                     button = 'middle';
                 }
                 request('to/' + Math.round(realPixelX) + '/' + Math.round(realPixelY));
-                request('click/' + button);
+
+                if (document.getElementById('moveAndClick').checked) {
+                    request('click/' + button);
+                }
             }
         }
 
@@ -104,6 +107,8 @@
         </table>
     </div>
     <div style="float: right; width: 64%;">
+        Move <input type="radio" name="clickMode" value="Move" checked> |&nbsp;
+        Move & click <input type="radio" name="clickMode" value="MoveAndCLick" id="moveAndClick">
         <img id="screen" width="100%" alt="Meep dot" />
     </div>
 </div>
