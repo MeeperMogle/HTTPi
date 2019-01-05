@@ -16,8 +16,18 @@
                 const mouseXonImage = mouseX - screen.offsetLeft;
                 const mouseYonImage = mouseY - screen.offsetTop;
 
-                const realPixelX = mouseXonImage * screenWidthModifier;
-                const realPixelY = mouseYonImage * screenHeightModifier;
+                let scrollX = window.scrollX;
+                if (!scrollX) {
+                    scrollX = 0;
+                }
+
+                let scrollY = window.scrollY;
+                if (!scrollY) {
+                    scrollY = 0;
+                }
+
+                const realPixelX = (mouseXonImage * screenWidthModifier) + scrollX;
+                const realPixelY = (mouseYonImage * screenHeightModifier) + scrollY;
 
                 let button = 'left';
                 if (e.button == 2) {
@@ -25,6 +35,7 @@
                 } else if (e.button == 1) {
                     button = 'middle';
                 }
+
                 request('to/' + Math.round(realPixelX) + '/' + Math.round(realPixelY));
 
                 if (document.getElementById('moveAndClick').checked) {
