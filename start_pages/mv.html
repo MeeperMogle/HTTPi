@@ -5,7 +5,7 @@
     function updateScreen(e) {
         const screen = document.getElementById('screen');
 
-        if (screen.width > 0 && screen.height > 0) {
+        if (screen.width > 0 && screen.height > 0 && e) {
             let screenWidthModifier = screenWidth / screen.width;
             let screenHeightModifier = screenHeight / screen.height;
 
