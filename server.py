@@ -8,6 +8,7 @@ from helpers import router_generator
 
 parser = configparser.RawConfigParser()
 whitelisted_ips = []
+whitelist_plugin_excemptions = []
 active_plugins = []
 
 
@@ -37,15 +38,16 @@ class S(BaseHTTPRequestHandler):
         if 'favicon.ico' in str(self.requestline):
             return
 
+        command_bits = target.split('/')
+
         client_ip = str(self.client_address[0])
-        if client_ip not in whitelisted_ips:
+        if client_ip not in whitelisted_ips and command_bits[0] not in whitelist_plugin_excemptions:
             self.wfile.write('{} not in whitelist'.format(client_ip).encode('utf-8'))
             logging.warning('Non-whitelisted {} attempted to access /{}'.format(client_ip, target))
             return
 
         logging.info('{} => /{}'.format(client_ip, target))
 
-        command_bits = target.split('/')
         self.handle_plugin(command_bits)
 
     def do_POST(self):
@@ -122,6 +124,9 @@ def load_properties():
     logging.info('Loading properties...')
     for ip in str(parser.get('security', 'ip_whitelist')).split(','):
         whitelisted_ips.append(ip)
+
+    for plugin in str(parser.get('security', 'plugin_whitelist_excemptions')).split(','):
+        whitelist_plugin_excemptions.append(plugin)
 
     for plugin in str(parser.get('plugins', 'active')).split(','):
         active_plugins.append(plugin)
